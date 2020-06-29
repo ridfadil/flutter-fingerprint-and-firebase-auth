@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "709888964885",
+    "firebase_url": "https://fir-auth-30eba.firebaseio.com",
+    "project_id": "fir-auth-30eba",
+    "storage_bucket": "fir-auth-30eba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709888964885:android:2cc5acd91c1babb785511c",
+        "android_client_info": {
+          "package_name": "com.fadil.flutterauth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "709888964885-g85jm35sfl4evc3hqjjckjn3aov7dsbh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fadil.flutterauth",
+            "certificate_hash": "80c0ba72c81653e2a97662c064b2e08ed0987c83"
+          }
+        },
+        {
+          "client_id": "709888964885-o7d4dv95m52qhj90o143oo0rqipiuels.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq6qEBZMLLVe1aKDNBfA6jll2JKLHZ7KA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "709888964885-o7d4dv95m52qhj90o143oo0rqipiuels.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
