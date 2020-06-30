@@ -26,6 +26,9 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FlutterLogo(size: 150),
+              Container(
+                margin: EdgeInsets.all(20),
+                  child: Text("@ridfadil")),
               SizedBox(height: 50),
               _signInButton(),
               Container(
