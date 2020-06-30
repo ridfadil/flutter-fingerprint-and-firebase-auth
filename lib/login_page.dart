@@ -13,7 +13,7 @@ class _LoginPageState extends State<LoginPage> {
   final LocalAuthentication auth = LocalAuthentication();
   bool _canCheckBiometrics;
   List<BiometricType> _availableBiometrics;
-  String _authorized = 'Not Authorized';
+  String _authorized = 'Tidak Terverifikasi';
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +32,18 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(top: 10),
                 child: Column(
                   children: <Widget>[
-                    Text('Can check biometrics: $_canCheckBiometrics\n'),
+                   /* Text('Can check biometrics: $_canCheckBiometrics\n'),
                     RaisedButton(
                       child: const Text('Check biometrics'),
                       onPressed: _checkBiometrics,
                     ),
-                    Text('Available biometrics: $_availableBiometrics\n'),
+                    Text('biometrics tersedia : $_availableBiometrics\n'),
                     RaisedButton(
-                      child: const Text('Get available biometrics'),
+                      child: const Text('Get biometrics tersedia'),
                       onPressed: _getAvailableBiometrics,
                     ),
-                    Text('Current State: $_authorized\n'),
-                    RaisedButton(
-                      child: const Text('Authenticate'),
-                      onPressed: _authenticate,
-                    )
+                    Text('Current State: $_authorized\n'),*/
+                    _checkBiometricsButton()
                   ],
                 )
               ),
@@ -62,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
       splashColor: Colors.grey,
       onPressed: () {
         signInWithGoogle().whenComplete(() {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) {
                 return ProfileScreen();
@@ -84,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign in with Google',
+                'Google Auth',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey,
@@ -97,45 +94,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> _checkBiometrics() async {
-    bool canCheckBiometrics;
-    try {
-      canCheckBiometrics = await auth.canCheckBiometrics;
-    } on PlatformException catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _canCheckBiometrics = canCheckBiometrics;
-    });
-  }
-
-  Future<void> _getAvailableBiometrics() async {
-    List<BiometricType> availableBiometrics;
-    try {
-      availableBiometrics = await auth.getAvailableBiometrics();
-    } on PlatformException catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _availableBiometrics = availableBiometrics;
-    });
-  }
-
-  Widget _biometrycButton() {
+  Widget _checkBiometricsButton() {
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed: () async {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return ProfileScreen();
-            },
-          ),
-        );
+      onPressed: () {
+        signInWithGoogle().whenComplete(() {
+        _authenticate();
+        });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -150,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign in with Biometric',
+                'Google Auth dan Biometrics',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey,
@@ -163,11 +128,42 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  ///cek Biometrics
+  Future<void> _checkBiometrics() async {
+    bool canCheckBiometrics;
+    try {
+      canCheckBiometrics = await auth.canCheckBiometrics;
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _canCheckBiometrics = canCheckBiometrics;
+    });
+  }
+
+  ///get Biometrics tersedia
+  Future<void> _getAvailableBiometrics() async {
+    List<BiometricType> availableBiometrics;
+    try {
+      availableBiometrics = await auth.getAvailableBiometrics();
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _availableBiometrics = availableBiometrics;
+    });
+  }
+
+  ///Untuk Scann Finger print
   Future<void> _authenticate() async {
     bool authenticated = false;
     try {
       authenticated = await auth.authenticateWithBiometrics(
-          localizedReason: 'Scan your fingerprint to authenticate',
+          localizedReason: 'Scan Finger print anda!',
           useErrorDialogs: true,
           stickyAuth: false);
     } on PlatformException catch (e) {
@@ -176,7 +172,16 @@ class _LoginPageState extends State<LoginPage> {
     if (!mounted) return;
 
     setState(() {
-      _authorized = authenticated ? 'Authorized' : 'Not Authorized';
+      _authorized = authenticated ? 'Terverifikasi' : 'Tidak Terverifikasi';
+      if(_authorized == "Terverifikasi"){
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) {
+              return ProfileScreen();
+            },
+          ),
+        );
+      }
     });
   }
 }
